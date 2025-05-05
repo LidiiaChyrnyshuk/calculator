@@ -1,0 +1,21 @@
+{
+	"name": "calculator",
+	"version": "1.0.0",
+	"description": "",
+	"type": "module",
+	"scripts": {
+		"dev": "parcel index.html",
+		"build": "parcel build index.html",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"parcel": "^2.14.4"
+	},
+	"dependencies": {
+		"dotenv": "^16.5.0",
+		"notyf": "^3.10.0"
+	}
+}

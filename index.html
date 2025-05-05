@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" href="./images/WS.svg" type="image/svg+xml" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>WEISS-BONUS</title>
+		<link rel="stylesheet" href="./css/normalize.css" />
+		<link rel="stylesheet" href="./css/styles.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+<script>
+  (function () {
+    const supported = ["ru", "en", "hu", "cz", "pt", "tr"];
+    let lang = navigator.language.split('-')[0].toLowerCase();
+    if (!supported.includes(lang)) lang = "ru";
+
+    const script = document.createElement("script");
+    script.src = `https://www.google.com/recaptcha/api.js?hl=${lang}`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  })();
+</script>
+
+
+	</head>
+	<body>
+		<div class="container">
+			<div id="scene2">
+				<img src="./images/DICES_1.png" data-depth="0.6" alt="Game cube" />
+			</div>
+			<div id="scene3">
+				<img src="./images/DICES_2.png" data-depth="0.6" alt="Game cube" />
+			</div>
+			<div id="scene4">
+				<img src="./images/chips1.png" data-depth="0.6" alt="Game chip" />
+			</div>
+			<div id="scene5">
+				<img src="./images/chips2.png" data-depth="0.6" alt="Game chip" />
+			</div>
+			<div id="scene6">
+				<img src="./images/chips3.png" data-depth="0.6" alt="Game chip" />
+			</div>
+			<header class="header">
+				<img src="./images/WEISSLogo.svg" class="header-logo" alt="WEISSLogo" />
+			</header>
+			<section class="hero">
+				<div class="board">
+					<h1 class="board-title" data-translate="title">Введи сумму и узнай</h1>
+					<p class="board-text" data-translate="description">свой бонус</p>
+				</div>
+				<div class="calculator">
+					<div class="calculator-deposit">
+						<label class="calculator-label" >
+							<span class="input-line"></span>
+							<span data-translate="deposit">Введи сумму</span>
+							<input
+								class="calculator-input"
+								type="text"
+								value=""
+								data-ref="deposit"
+							/>
+							<img
+								class="calculator-icon"
+								src="./images/currency_usdt.svg"
+								alt="Currency icon"
+								width="24"
+								height="24"
+							/>
+						</label>
+					</div>
+					<div class="calculator-slot">
+						<p class="calculator-bonus"></p>
+					</div>
+					<p class="calculator-bonus-text">
+						<span class="calculator-text" data-translate=""></span>
+						<span class="text-bonus" data-ref="bonusMessage" ></span>
+					</p>
+					<button
+						class="button"
+						type="button"
+						data-modal-open
+						id="bonusButton"
+					>
+						<img
+							src="./images/additional_icons.svg"
+							alt="Gift icon"
+							width="24"
+							height="24"
+							class="bonus-icon-default"
+						/>
+						<img
+							src="./images/disabel_icons-1.svg"
+							alt="Gift icon"
+							width="24"
+							height="24"
+							class="bonus-icon-disabled"
+						/>
+						<span data-translate="bonusButton">Забрать бонус</span>
+					</button>
+				</div>
+			</section>
+
+			<!-- -----MODALWINDOW------ -->
+			<div class="backdrop is-hidden" data-modal>
+				<form class="modal" id="registrationForm">
+					<div class="modal-header">
+						<div id="scene">
+							<img
+								src="./images/chips2.png"
+								width="70"
+								height="75"
+								data-depth="0.6"
+								alt="Game chip"
+							/>
+						</div>
+						<div id="scene1">
+							<img
+								src="./images/chips1.png"
+								width="90"
+								height="90"
+								data-depth="0.6"
+								alt="Game chip"
+							/>
+						</div>
+						<h2 class="modal-title">BONUS</h2>
+
+						<div class="modal-slot">
+							<p class="modal-slot-text"></p>
+						</div>
+					</div>
+					<div class="modal-content">
+						<label class="modal-label">
+							Email*
+							<input
+								class="modal-input"
+								type="email"
+								name="email"
+								placeholder="user@gmail.com"
+								value=""
+								required
+							/>
+							<img
+								class="input-icon modal-icon"
+								src="./images/icon-email.svg"
+								alt="Letter icon"
+								width="24"
+								height="24"
+							/>
+						</label>
+						<label class="modal-label">
+							Password*
+							<input
+								class="modal-input"
+								type="password"
+								name="password"
+								placeholder="Qwerty123"
+								value=""
+								required
+							/>
+							<img
+								class="input-icon modal-icon"
+								src="./images/icon-password.svg"
+								alt="Lock icon"
+								width="24"
+								height="24"
+							/>
+						</label>
+						<label class="modal-check modal-label">
+							<input class="modal-checkbox" type="checkbox" name="terms" />
+							<p>
+								<span data-translate="checkbox">Ставя галочку в этом поле для регистрации на сайте, пользователь подтверждает, что ему больше 18 лет, и что он прочитал, понял и принял</span>
+								<a href="https://weiss.bet/terms-and-conditions" data-translate="terms">Условия и положения</a>.
+							</p>
+						</label>
+						<div class="captcha-wrapper" id="captcha-container">
+							<div class="g-recaptcha" data-sitekey="6Lc8VScrAAAAANRx9dlF-7al1JFRkX9hwcG7XPAr" data-callback="onCaptchaCompleted"></div>
+						</div>
+					</div>
+					<div class="modal-btn">
+						<button class="button modal-button" type="submit" data-translate="modalBtn">
+							Cоздать акаунт
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+		<script src="./js/parallax.js"></script>
+		<script type="module" src="./js/translate.js" defer></script>
+		<script type="module" src="./js/numerBlock.js" defer></script>
+		<script type="module" src="./js/calculator.js" defer></script>
+		<script type="module" src="./js/modal.js" defer></script>
+	</body>
+</html>
