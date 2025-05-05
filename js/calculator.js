@@ -81,7 +81,12 @@ const bonuses = [
 		type: "High Roller Bonus",
 	},
 ];
-import { changeLanguage, getBrowserLanguage, translateText } from "./translate";
+
+import {
+	changeLanguage,
+	getBrowserLanguage,
+	translateText,
+} from "./translate.js";
 
 const refsBonus = {
 	depositInput: document.querySelector('[data-ref="deposit"]'),
