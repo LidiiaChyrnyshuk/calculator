@@ -87,127 +87,185 @@ import {
 	getBrowserLanguage,
 	translateText,
 } from "./translate.js";
-
-const refsBonus = {
+// ==== REFERENCES ====
+const refs = {
 	depositInput: document.querySelector('[data-ref="deposit"]'),
-	bonusOutput: document.querySelector(".calculator-bonus"),
 	bonusMessage: document.querySelector('[data-ref="bonusMessage"]'),
 	bonusText: document.querySelector(".calculator-text"),
-	modalText: document.querySelector(".modal-slot-text"),
 	bonusButton: document.querySelector("[data-modal-open]"),
+	modalText: document.querySelector(".modal-slot-text"),
+	slots: [
+		document.getElementById("slot1").querySelector(".icons"),
+		document.getElementById("slot2").querySelector(".icons"),
+		document.getElementById("slot3").querySelector(".icons"),
+		document.getElementById("slot4").querySelector(".icons"),
+	],
 };
 
-// Ініціалізація
+let intervalIds = [null, null, null, null];
+let positions = [0, 0, 0, 0];
+const typingDelay = 1000;
+let typingTimer;
+
+// ==== INIT ====
 document.addEventListener("DOMContentLoaded", () => {
-		const lang = getBrowserLanguage();
+	const lang = getBrowserLanguage();
 	changeLanguage(lang);
 	disableBonusButton();
-	refsBonus.depositInput.addEventListener("input", calculateBonus);
-	refsBonus.bonusButton.addEventListener("click", () => {
+
+	refs.depositInput.addEventListener("input", handleInput);
+	refs.bonusButton.addEventListener("click", () => {
 		setTimeout(() => {
 			clearBonusInfo();
-		}, 1000); // даємо трохи часу модалці відкритися
+		}, 1000);
 	});
 });
 
+// ==== MAIN HANDLER ====
+function handleInput() {
+	clearTimeout(typingTimer);
 
-function calculateBonus() {
-	let deposit = refsBonus.depositInput.value.trim();
+	const deposit = parseFloat(refs.depositInput.value.trim());
 
-	if (deposit === "") {
-		clearBonusDisplay();
-		refsBonus.bonusMessage.textContent = " ";
-		refsBonus.bonusText.textContent = " ";
-		disableBonusButton();
-		return;
-	}
+	refs.bonusText.textContent = "";
+	refs.bonusMessage.textContent = "";
+	startFastSpin();
 
-	deposit = parseFloat(deposit);
+	typingTimer = setTimeout(() => {
+		if (isNaN(deposit) || deposit < 20) {
+			clearSlots();
+			refs.bonusText.setAttribute("data-translate", "minDeposit");
+			refs.bonusText.textContent = translateText("minDeposit");
+			refs.bonusMessage.textContent = "";
+			disableBonusButton();
+			return;
+		}
 
-	if (isNaN(deposit)) {
-		clearBonusDisplay();
-		refsBonus.bonusMessage.textContent = " ";
+		if (deposit > 3000) {
+			clearSlots();
+			refs.bonusText.textContent =
+				translateText("maxDeposit 3000 USDT") || "Максимальна сума 3000 USDT";
+			refs.bonusMessage.textContent = "";
+			disableBonusButton();
+			return;
+		}
 
-		disableBonusButton();
-		return;
-	}
+		const bonus = getApplicableBonus(deposit);
+		if (!bonus) {
+			clearSlots();
+			refs.bonusText.textContent = translateText("noBonus") || "Немає бонусу для цієї ставки";
+			refs.bonusMessage.textContent = "";
+			disableBonusButton();
+			return;
+		}
 
-	if (deposit < 20) {
-		refsBonus.bonusText.setAttribute("data-translate", "minDeposit");
-		refsBonus.bonusText.textContent = translateText("minDeposit");
-		refsBonus.bonusMessage.textContent = "";
-		clearBonusDisplay();
-		disableBonusButton();
-		return;
-	}
+		const raw = deposit * bonus.bonus;
+		const amount = Math.min(Math.round(raw), bonus.upto);
+		const fs = bonus.fs;
 
-	const applicableBonus = bonuses.find(
-		(b) => deposit >= b.min && deposit <= b.max && b.depositNum === 1
-	);
-
-	if (applicableBonus) {
-		const bonusAmount = Math.round(
-			deposit * applicableBonus.bonus,
-			applicableBonus.upto
-		);
-		const rounded = Math.round(bonusAmount);
-	
-		const freeSpins = applicableBonus.fs;
-
-		const digits = `${rounded}`.split("");
-		const totalSlots = 4;
-		const paddedDigits = Array.from(
-			{ length: totalSlots },
-			(_, i) => digits[i] || ""
-		);
-
-		refsBonus.bonusOutput.innerHTML = paddedDigits
-			.map((digit) => `<span class="calculator-digit">${digit}</span>`)
-			.join("");
-
-		const modalDigits = `${rounded}`.split("");
-		const paddedModalDigits = Array.from(
-			{ length: 4 },
-			(_, i) => modalDigits[i] || ""
-		);
-
-		refsBonus.modalText.innerHTML = paddedModalDigits
-			.map((d) => `<span class="modal-digit">${d}</span>`)
-			.join("");
-		refsBonus.bonusText.setAttribute("data-translate", "yourBonus");
-		refsBonus.bonusText.textContent = translateText("yourBonus");
-		refsBonus.bonusMessage.textContent = `${rounded} USDT + ${freeSpins} FS`;
-
+		stopSpinAndShowDigits(amount);
+		updateBonusText(amount, fs);
 		enableBonusButton();
-	} else {
-		clearBonusDisplay();
-		refsBonus.bonusMessage.textContent = "";
-		disableBonusButton();
+	}, typingDelay);
+}
+
+// ==== ANIMATION ====
+function startFastSpin() {
+	refs.slots.forEach((slot, index) => {
+		clearInterval(intervalIds[index]);
+		fillSlotWithDigits(slot);
+		intervalIds[index] = setInterval(() => {
+			positions[index] -= 10;
+			const visibleHeight = 98; // або 200, якщо media query
+			const iconCount = 10;
+			const totalHeight = visibleHeight * iconCount;
+
+			if (positions[index] <= -totalHeight) positions[index] = 0;
+			slot.style.top = positions[index] + "px";
+		}, 16);
+	});
+}
+
+function fillSlotWithDigits(slot) {
+	slot.innerHTML = "";
+	for (let i = 0; i < 10; i++) {
+		const icon = document.createElement("div");
+		icon.className = "icon";
+		icon.textContent = i;
+		slot.appendChild(icon);
 	}
 }
 
-function clearBonusDisplay() {
-	refsBonus.bonusOutput.textContent = "";
+function stopSpinAndShowDigits(amount) {
+	const digits = String(amount).padStart(4, " ").split("");
+
+	// Головна — зупинка спіну
+	refs.slots.forEach((slot, i) => {
+		clearInterval(intervalIds[i]);
+		slot.innerHTML = "";
+
+		const digit = digits[i].trim();
+		const icon = document.createElement("div");
+		icon.className = "icon";
+		icon.textContent = digit;
+		slot.appendChild(icon);
+
+		slot.style.top = "0px";
+		positions[i] = 0;
+	});
+
+	// Модальне вікно — тільки цифри бонусу
+	updateModalBonusDisplay(amount);
+}
+
+function clearSlots() {
+	refs.slots.forEach((slot) => {
+		slot.innerHTML = "";
+		slot.style.top = "0px";
+	});
+	positions = [0, 0, 0, 0];
+	intervalIds.forEach((id, i) => clearInterval(intervalIds[i]));
+}
+
+// ==== BONUS ====
+function getApplicableBonus(deposit) {
+	return bonuses.find((b) => deposit >= b.min && deposit <= b.max && b.depositNum === 1);
+}
+
+function updateBonusText(amount, fs) {
+	refs.bonusText.setAttribute("data-translate", "yourBonus");
+	refs.bonusText.textContent = translateText("yourBonus") || "Ваш бонус:";
+	refs.bonusMessage.textContent = `${amount} USDT + ${fs} FS`;
+}
+
+function updateModalBonusDisplay(amount) {
+	const digits = String(amount).padStart(4, " ").split("");
+	refs.modalText.innerHTML = digits
+		.map((d) => `<span class="modal-digit">${d.trim()}</span>`)
+		.join("");
 }
 
 function clearBonusInfo() {
-	refsBonus.depositInput.value = "";
-	clearBonusDisplay();
-	refsBonus.bonusMessage.textContent = " ";
-	refsBonus.bonusText.textContent = " ";
+	refs.depositInput.value = "";
+	clearSlots();
+	refs.bonusMessage.textContent = "";
+	refs.bonusText.textContent = "";
 	disableBonusButton();
 }
 
-function disableBonusButton() {
-	refsBonus.bonusButton.disabled = true;
-	refsBonus.bonusButton.style.cursor = "not-allowed";
-	refsBonus.bonusButton.style.background = "rgba(99, 82, 255, 1)";
-	refsBonus.bonusButton.style.color = "rgba(198, 195, 205, 1)";
+// ==== BUTTONS ====
+export function disableBonusButton() {
+	refs.bonusButton.disabled = true;
+	refs.bonusButton.style.cursor = "not-allowed";
+	refs.bonusButton.style.background = "rgba(99, 82, 255, 1)";
+	refs.bonusButton.style.color = "rgba(198, 195, 205, 1)";
+	refs.bonusButton.style.animation = "none";
 }
 
-function enableBonusButton() {
-	refsBonus.bonusButton.disabled = false;
-	refsBonus.bonusButton.style.cursor = "pointer";
-	refsBonus.bonusButton.style.background = "rgba(79, 65, 202, 1)";
-	refsBonus.bonusButton.style.color = "rgba(255, 255, 255, 1)";
+export function enableBonusButton() {
+	refs.bonusButton.disabled = false;
+	refs.bonusButton.style.cursor = "pointer";
+	refs.bonusButton.style.background = "rgba(79, 65, 202, 1)";
+	refs.bonusButton.style.color = "rgba(255, 255, 255, 1)";
+	refs.bonusButton.style.animation = "pulse 1.5s infinite";
 }

@@ -5,24 +5,18 @@
 		<link rel="icon" href="./images/WS.svg" type="image/svg+xml" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>WEISS-BONUS</title>
+		<script>
+			window.__REDIRECT_LINK = "%%redirect_to%%";
+		</script>
 		<link rel="stylesheet" href="./css/normalize.css" />
 		<link rel="stylesheet" href="./css/styles.css" />
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-<script>
-  (function () {
-    const supported = ["ru", "en", "hu", "cz", "pt", "tr"];
-    let lang = navigator.language.split('-')[0].toLowerCase();
-    if (!supported.includes(lang)) lang = "ru";
-
-    const script = document.createElement("script");
-    script.src = `https://www.google.com/recaptcha/api.js?hl=${lang}`;
-    script.async = true;
-    script.defer = true;
-    document.head.appendChild(script);
-  })();
-</script>
-
-
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+		/>
+		<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+		<script type="module" src="./js/global-params-utils.js"></script>
+		<script type="module" src="./js/modal.js"></script>
 	</head>
 	<body>
 		<div class="container">
@@ -46,12 +40,14 @@
 			</header>
 			<section class="hero">
 				<div class="board">
-					<h1 class="board-title" data-translate="title">Введи сумму и узнай</h1>
+					<h1 class="board-title" data-translate="title">
+						Введи сумму и узнай
+					</h1>
 					<p class="board-text" data-translate="description">свой бонус</p>
 				</div>
 				<div class="calculator">
 					<div class="calculator-deposit">
-						<label class="calculator-label" >
+						<label class="calculator-label">
 							<span class="input-line"></span>
 							<span data-translate="deposit">Введи сумму</span>
 							<input
@@ -59,6 +55,7 @@
 								type="text"
 								value=""
 								data-ref="deposit"
+								id="betInput"
 							/>
 							<img
 								class="calculator-icon"
@@ -70,18 +67,26 @@
 						</label>
 					</div>
 					<div class="calculator-slot">
-						<p class="calculator-bonus"></p>
+						<div class="calculator-bonus">
+							<div class="slot" id="slot1"><div class="icons"></div></div>
+							<div class="slot" id="slot2"><div class="icons"></div></div>
+							<div class="slot" id="slot3"><div class="icons"></div></div>
+							<div class="slot" id="slot4"><div class="icons"></div></div>
+						</div>
 					</div>
 					<p class="calculator-bonus-text">
-						<span class="calculator-text" data-translate=""></span>
-						<span class="text-bonus" data-ref="bonusMessage" ></span>
+						<span
+							id="bonusInfo"
+							class="calculator-text"
+							data-translate=""
+						></span>
+						<span
+							id="bonusText"
+							class="text-bonus"
+							data-ref="bonusMessage"
+						></span>
 					</p>
-					<button
-						class="button"
-						type="button"
-						data-modal-open
-						id="bonusButton"
-					>
+					<button class="button" type="button" data-modal-open id="bonusButton">
 						<img
 							src="./images/additional_icons.svg"
 							alt="Gift icon"
@@ -130,55 +135,120 @@
 						</div>
 					</div>
 					<div class="modal-content">
-						<label class="modal-label">
-							Email*
-							<input
-								class="modal-input"
-								type="email"
-								name="email"
-								placeholder="user@gmail.com"
-								value=""
-								required
-							/>
-							<img
-								class="input-icon modal-icon"
-								src="./images/icon-email.svg"
-								alt="Letter icon"
-								width="24"
-								height="24"
-							/>
-						</label>
-						<label class="modal-label">
-							Password*
-							<input
-								class="modal-input"
-								type="password"
-								name="password"
-								placeholder="Qwerty123"
-								value=""
-								required
-							/>
-							<img
-								class="input-icon modal-icon"
-								src="./images/icon-password.svg"
-								alt="Lock icon"
-								width="24"
-								height="24"
-							/>
-						</label>
+						<div class="email-wrap">
+							<label class="modal-label">
+								Email*
+								<input
+									class="modal-input email"
+									type="email"
+									name="email"
+									placeholder="Email"
+									value=""
+									required
+								/>
+								<img
+									class="input-icon modal-icon"
+									src="./images/icon-email.svg"
+									alt="Letter icon"
+									width="24"
+									height="24"
+								/>
+							</label>
+							<p class="error-text" data-translate="emailError">
+								Incorrect email format
+							</p>
+						</div>
+						<div class="password-wrap">
+							<label class="modal-label password-container">
+								Password*
+								<input
+									class="modal-input password"
+									type="password"
+									name="password"
+									placeholder="Password"
+									value=""
+									required
+								/>
+								<img
+									class="input-icon modal-icon"
+									src="./images/icon-password.svg"
+									alt="Lock icon"
+									width="24"
+									height="24"
+								/>
+								<button
+									type="button"
+									class="toggle-password"
+									aria-label="Toggle password"
+								>
+									<img
+										src="./images/eye-closed.svg"
+										alt="Toggle visibility"
+										width="24"
+										height="24"
+									/>
+								</button>
+							</label>
+							<!-- Валідаційні підказки -->
+							<div class="password-hints" id="passwordHint">
+								<div class="hint-list">
+									<div class="hint-item" data-check="length">
+										<img
+											class="icon-valid"
+											src="./images/status_error.svg"
+											alt="status_error"
+										/>
+										<span class="text-valid" data-translate="quantityCharacter"
+											>Contain at least 6 characters</span
+										>
+									</div>
+									<div class="hint-item" data-check="uppercase">
+										<img
+											class="icon-valid"
+											src="./images/status_error.svg"
+											alt="status_error"
+										/>
+										<span class="text-valid" data-translate="uppercaseCharacter"
+											>Include at least 1 uppercase letter</span
+										>
+									</div>
+									<div class="hint-item" data-check="digit">
+										<img
+											class="icon-valid"
+											src="./images/status_error.svg"
+											alt="status_error"
+										/>
+										<span class="text-valid" data-translate="numberCharacter"
+											>Include at least 1 number</span
+										>
+									</div>
+								</div>
+							</div>
+						</div>
 						<label class="modal-check modal-label">
 							<input class="modal-checkbox" type="checkbox" name="terms" />
 							<p>
-								<span data-translate="checkbox">Ставя галочку в этом поле для регистрации на сайте, пользователь подтверждает, что ему больше 18 лет, и что он прочитал, понял и принял</span>
-								<a href="https://weiss.bet/terms-and-conditions" data-translate="terms">Условия и положения</a>.
+								<span data-translate="checkbox"
+									>Ставя галочку в этом поле для регистрации на сайте,
+									пользователь подтверждает, что ему больше 18 лет, и что он
+									прочитал, понял и принял</span
+								>
+								<a
+									href="https://weiss.bet/terms-and-conditions"
+									data-translate="terms"
+									>Условия и положения</a
+								>.
 							</p>
 						</label>
-						<div class="captcha-wrapper" id="captcha-container">
-							<div class="g-recaptcha" data-sitekey="6LcKIzErAAAAAIcMFWxSQdGNuYsuvgDPXaSniytq" data-callback="onCaptchaCompleted"></div>
-						</div>
+						<div id="captcha-container"></div>
 					</div>
 					<div class="modal-btn">
-						<button class="button modal-button" type="submit" data-translate="modalBtn">
+						<button
+						id="submitBtn"
+							class="button modal-button"
+							type="submit"
+							data-translate="modalBtn"
+						>
 							Cоздать акаунт
 						</button>
 					</div>
@@ -186,12 +256,10 @@
 			</div>
 		</div>
 
-		<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
 		<script src="./js/parallax.js" defer></script>
 		<script type="module" src="./js/translate.js" defer></script>
 		<script type="module" src="./js/numerBlock.js" defer></script>
 		<script type="module" src="./js/calculator.js" defer></script>
-		<script type="module" src="./js/modal.js" defer></script>
 	</body>
 </html>

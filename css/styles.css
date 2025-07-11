@@ -363,10 +363,11 @@ body::after {
 }
 
 .calculator-bonus {
+	position: relative;
 	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 4px;
+/* 	justify-content: center;
+	align-items: center; */
+/* 	gap: 4px; */
 	width: 224px;
 	height: 98px;
 	font-weight: 700;
@@ -399,6 +400,48 @@ body::after {
 		padding-right: 20px;
 	}
 }
+.slot {
+  width: 70px; /* достатньо для цифри */
+  height: 88px;
+  overflow: hidden;
+  position: relative;
+}
+
+.icons {
+  position: relative;
+  top: 0;
+}
+
+.icon {
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 70px;
+  font-weight: 700;
+  letter-spacing: normal;
+  background: linear-gradient(to bottom, #fff 40%, #eb0047 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+	
+}
+
+@media screen and (min-width: 1512px) {
+	.slot {
+		width: 140px; /* достатньо для цифри */
+		height: 150px;
+	}
+	.icon {
+		height: 150px;
+		font-size: 150px;
+	}
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; transform: translateY(10px); }
+	to { opacity: 1; transform: translateY(0); }
+}
 
 .calculator-digit {
 	position: relative;
@@ -422,10 +465,10 @@ body::after {
 	height: 100%;
 }
 
-.calculator-bonus-text {
+/* .calculator-bonus-text {
 	text-align: center;
 	margin-bottom: 8px;
-}
+} */
 
 .calculator-text {
 	font-weight: 500;
@@ -449,14 +492,13 @@ body::after {
 	border-radius: 12px;
 	border: none;
 	padding: 8px 48px;
-	/* 	background: rgba(99, 82, 255, 1);
-	color: rgba(255, 255, 255, 1); */
+		background: rgba(99, 82, 255, 1);
+	color: rgba(255, 255, 255, 1);
 	display: flex;
 	gap: 4px;
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
-  animation: pulse 1.5s infinite;
   transition: transform 0.2s;
 }
 
@@ -512,7 +554,7 @@ body::after {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	z-index: 20;
+	z-index: 99;
 }
 .is-hidden {
 	opacity: 0;
@@ -535,7 +577,7 @@ body::after {
 	transform: translate(-50%, -50%) scale(1);
 	transition: transform 250ms ease-in-out, scale 250ms ease-in-out;
 	overflow: hidden;
-	z-index: 10;
+	z-index: 100;
 }
 
 @media screen and (min-width: 361px) {
@@ -679,6 +721,17 @@ body::after {
 	}
 }
 
+.email-wrap {
+	position: relative;
+	width: 100%;
+}
+
+.password-wrap {
+	position: relative;
+	width: 100%;
+	
+}
+
 .modal-label {
 	position: relative;
 	font-weight: 400;
@@ -696,6 +749,7 @@ body::after {
 	width: 100%;
 	height: 48px;
 	border-radius: 12px;
+	background: transparent;
 	border: 1px solid rgba(206, 209, 212, 1);
 	font-weight: 400;
 	font-size: 14px;
@@ -710,18 +764,154 @@ body::after {
 	cursor: pointer;
 }
 
-.modal-input.invalid {
-	border-color: rgba(235, 87, 87, 1);
+input::placeholder {
+	color: rgba(133, 141, 148, 1);
 }
 
-.modal-input.valid {
-	border-color: rgba(206, 209, 212, 1);
+.email-wrap {
+	position: relative;
+	width: 100%;
+}
+
+.password-wrap {
+	position: relative;
+	width: 100%;
+	
+}
+
+.modal-label {
+	position: relative;
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 16px;
+	height: 72px;
+	color: rgba(52, 65, 77, 1);
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-bottom: 16px;
+}
+
+.modal-input {
+	width: 100%;
+	height: 48px;
+	border-radius: 12px;
+	background: transparent;
+	border: 1px solid rgba(206, 209, 212, 1);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 16px;
+	color: rgba(52, 65, 77, 1);
+	padding-left: 44px;
+	padding-top: 10px;
+	padding-right: 12px;
+	padding-bottom: 10px;
+	outline: none;
+	transition: border-color 0.3s ease-in-out;
+	cursor: pointer;
+}
+
+input::placeholder {
+	color: rgba(255, 255, 255, 0.6);
+}
+
+.email.error {
+  border: 1px solid rgba(255, 83, 100, 1) !important;
+}
+
+.error-text {
+position: absolute;
+right: 16px;
+bottom: -12px;
+display: none;
+font-weight: 400;
+font-size: 12px;
+line-height: 24px;
+color: rgba(255, 83, 100, 1);
+background-color: rgba(255, 255, 255, 1);
+padding: 0 4px;
+z-index: 5;
+}
+
+.password {
+	position: relative;
+	z-index: 8;
 }
 
 .input-icon {
 	position: absolute;
 	left: 12px;
 	bottom: 12px;
+	width: 24px;
+	height: 24px;
+	z-index: 8;
+}
+
+.toggle-password {
+	position: absolute;
+	right: 12px;
+	bottom: 12px;
+	width: 24px;
+	height: 24px;
+	background: transparent;
+	border: none;
+	z-index: 8;
+}
+.toggle-password img {
+	width: 24px;
+	height: 24px;
+}
+
+.password-hints {
+	position: absolute;
+	top: 18px;
+	left: -8px;
+	width: 358px;
+	height: 194px;
+	border: 1px solid #ffffff3d;
+	border-radius: 16px;
+	backdrop-filter: blur(24px);
+	padding: 8px;
+	z-index: 2;
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	justify-content: end;
+}
+@media screen and (min-width:1024px) {
+	.password-hints {
+		width: 448px;
+	}
+}
+
+.password-hints.active {
+	display: flex;
+}
+.hint-list {
+	border-radius: 12px;
+	background: #FFFFFF1F;
+width: 100%;
+}
+
+.hint-item {
+display: flex;
+gap: 10px;
+align-items: center;
+justify-content: flex-start;
+padding: 8px;
+}
+
+.icon-valid {
+	width: 18px;
+	height: 18px;
+}
+
+.text-valid {
+	font-family: inherit;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 24px;
+	color: rgba(52, 65, 77, 1);
 }
 
 .modal-check {
@@ -733,6 +923,7 @@ body::after {
 	justify-content: center;
 	cursor: pointer;
 	position: relative;
+	margin: 0;
 }
 
 @media screen and (min-width: 1512px) {
@@ -743,7 +934,6 @@ body::after {
 
 .modal-checkbox {
 	appearance: none;
-
 	width: 18px;
 	height: 18px;
 	display: flex;
@@ -758,6 +948,7 @@ body::after {
 	width: 18px;
 	height: 18px;
 }
+
 
 .modal-checkbox:checked::before {
 	content: "";
@@ -785,18 +976,27 @@ body::after {
 	width: 100%;
 }
 
-.captcha-wrapper {
-	margin-left: auto;
-	margin-right: auto;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+#submitBtn.disabled {
+	opacity: 0.6;
+	pointer-events: none;
+	cursor: not-allowed;
 }
 
-.g-recaptcha {
-	transform: scale(1);
-	transform-origin: 0 0;
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active {
+	transition: background-color 5000s ease-in-out 0s;
+	-webkit-text-fill-color: #fff !important;
+	background-color: rgba(12, 20, 40, 1) !important;
+	box-shadow: 0 0 0px 1000px rgba(12, 20, 40, 1) inset !important;
 }
+
+#captcha-container {
+  height: 0;
+  overflow: hidden;
+}
+
 
 /* ---------scene--------------- */
 
