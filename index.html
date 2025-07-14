@@ -176,8 +176,9 @@
 									width="24"
 									height="24"
 								/>
-								<button
-									type="button"
+								<span
+								role="button"
+								tabindex="0"
 									class="toggle-password"
 									aria-label="Toggle password"
 								>
@@ -187,7 +188,7 @@
 										width="24"
 										height="24"
 									/>
-								</button>
+							</span>
 							</label>
 							<!-- Валідаційні підказки -->
 							<div class="password-hints" id="passwordHint">
@@ -227,7 +228,7 @@
 						</div>
 						<label class="modal-check modal-label">
 							<input class="modal-checkbox" type="checkbox" name="terms" />
-							<p>
+							<span>
 								<span data-translate="checkbox"
 									>Ставя галочку в этом поле для регистрации на сайте,
 									пользователь подтверждает, что ему больше 18 лет, и что он
@@ -238,13 +239,13 @@
 									data-translate="terms"
 									>Условия и положения</a
 								>.
-							</p>
+							</span>
 						</label>
 						<div id="captcha-container"></div>
 					</div>
 					<div class="modal-btn">
 						<button
-						id="submitBtn"
+							id="submitBtn"
 							class="button modal-button"
 							type="submit"
 							data-translate="modalBtn"
@@ -258,8 +259,8 @@
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
 		<script src="./js/parallax.js" defer></script>
-		<script type="module" src="./js/translate.js" defer></script>
-		<script type="module" src="./js/numerBlock.js" defer></script>
-		<script type="module" src="./js/calculator.js" defer></script>
+		<script type="module" src="./js/translate.js"></script>
+		<script type="module" src="./js/numerBlock.js"></script>
+		<script type="module" src="./js/calculator.js"></script>
 	</body>
 </html>

@@ -125,7 +125,18 @@ document.addEventListener("DOMContentLoaded", () => {
 function handleInput() {
 	clearTimeout(typingTimer);
 
-	const deposit = parseFloat(refs.depositInput.value.trim());
+	const rawValue = refs.depositInput.value.trim();
+
+	// 🟡 Якщо поле порожнє — нічого не робимо
+	if (rawValue === "") {
+		clearSlots();
+		refs.bonusText.textContent = "";
+		refs.bonusMessage.textContent = "";
+		disableBonusButton();
+		return;
+	}
+
+	const deposit = parseFloat(rawValue);
 
 	refs.bonusText.textContent = "";
 	refs.bonusMessage.textContent = "";
@@ -153,7 +164,8 @@ function handleInput() {
 		const bonus = getApplicableBonus(deposit);
 		if (!bonus) {
 			clearSlots();
-			refs.bonusText.textContent = translateText("noBonus") || "Немає бонусу для цієї ставки";
+			refs.bonusText.textContent =
+				translateText("noBonus") || "Немає бонусу для цієї ставки";
 			refs.bonusMessage.textContent = "";
 			disableBonusButton();
 			return;
@@ -169,6 +181,7 @@ function handleInput() {
 	}, typingDelay);
 }
 
+
 // ==== ANIMATION ====
 function startFastSpin() {
 	refs.slots.forEach((slot, index) => {
@@ -176,7 +189,7 @@ function startFastSpin() {
 		fillSlotWithDigits(slot);
 		intervalIds[index] = setInterval(() => {
 			positions[index] -= 10;
-			const visibleHeight = 98; // або 200, якщо media query
+			const visibleHeight = 98; 
 			const iconCount = 10;
 			const totalHeight = visibleHeight * iconCount;
 

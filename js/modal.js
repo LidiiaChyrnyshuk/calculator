@@ -3,10 +3,7 @@ import {
 	redirectToTDS,
 	registrationProcess,
 } from "./global-params-utils.js";
-import {
-	disableBonusButton,
-	enableBonusButton
-} from "./calculator.js"
+
 let notyf;
 let startY = 0;
 
@@ -45,12 +42,6 @@ function validateForm() {
 	refs.submitBtn.disabled = !allValid;
 	refs.submitBtn.classList.toggle("disabled", !allValid);
 
-/* 
-	if (allValid) {
-		enableBonusButton();
-	} else {
-		disableBonusButton();
-	} */
 }
 
 function validateEmail(value) {

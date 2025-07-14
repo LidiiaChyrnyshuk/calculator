@@ -212,7 +212,6 @@ body::after {
 		width: 448px;
 		height: 196px;
 		gap: 26px;
-	
 	}
 }
 
@@ -365,9 +364,9 @@ body::after {
 .calculator-bonus {
 	position: relative;
 	display: flex;
-/* 	justify-content: center;
+	/* 	justify-content: center;
 	align-items: center; */
-/* 	gap: 4px; */
+	/* 	gap: 4px; */
 	width: 224px;
 	height: 98px;
 	font-weight: 700;
@@ -400,31 +399,31 @@ body::after {
 		padding-right: 20px;
 	}
 }
+
 .slot {
-  width: 70px; /* достатньо для цифри */
-  height: 88px;
-  overflow: hidden;
-  position: relative;
+	width: 70px; /* достатньо для цифри */
+	height: 88px;
+	overflow: hidden;
+	position: relative;
 }
 
 .icons {
-  position: relative;
-  top: 0;
+	position: relative;
+	top: 0;
 }
 
 .icon {
-  height: 88px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 70px;
-  font-weight: 700;
-  letter-spacing: normal;
-  background: linear-gradient(to bottom, #fff 40%, #eb0047 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-	
+	height: 88px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 70px;
+	font-weight: 700;
+	letter-spacing: normal;
+	background: linear-gradient(to bottom, #fff 40%, #eb0047 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
 }
 
 @media screen and (min-width: 1512px) {
@@ -439,8 +438,14 @@ body::after {
 }
 
 @keyframes fadeIn {
-	from { opacity: 0; transform: translateY(10px); }
-	to { opacity: 1; transform: translateY(0); }
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 .calculator-digit {
@@ -492,14 +497,14 @@ body::after {
 	border-radius: 12px;
 	border: none;
 	padding: 8px 48px;
-		background: rgba(99, 82, 255, 1);
+	background: rgba(99, 82, 255, 1);
 	color: rgba(255, 255, 255, 1);
 	display: flex;
 	gap: 4px;
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
-  transition: transform 0.2s;
+	transition: transform 0.2s;
 }
 
 @media screen and (min-width: 1512px) {
@@ -509,18 +514,18 @@ body::after {
 }
 
 @keyframes pulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(151, 140, 255, 1);
-  }
-  70% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 8px rgba(230, 57, 70, 0);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(230, 57, 70, 0);
-  }
+	0% {
+		transform: scale(1);
+		box-shadow: 0 0 0 0 rgba(151, 140, 255, 1);
+	}
+	70% {
+		transform: scale(1.05);
+		box-shadow: 0 0 0 8px rgba(230, 57, 70, 0);
+	}
+	100% {
+		transform: scale(1);
+		box-shadow: 0 0 0 0 rgba(230, 57, 70, 0);
+	}
 }
 
 #bonusButton .bonus-icon-disabled {
@@ -729,7 +734,6 @@ body::after {
 .password-wrap {
 	position: relative;
 	width: 100%;
-	
 }
 
 .modal-label {
@@ -768,69 +772,22 @@ input::placeholder {
 	color: rgba(133, 141, 148, 1);
 }
 
-.email-wrap {
-	position: relative;
-	width: 100%;
-}
-
-.password-wrap {
-	position: relative;
-	width: 100%;
-	
-}
-
-.modal-label {
-	position: relative;
-	font-weight: 400;
-	font-size: 12px;
-	line-height: 16px;
-	height: 72px;
-	color: rgba(52, 65, 77, 1);
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	margin-bottom: 16px;
-}
-
-.modal-input {
-	width: 100%;
-	height: 48px;
-	border-radius: 12px;
-	background: transparent;
-	border: 1px solid rgba(206, 209, 212, 1);
-	font-weight: 400;
-	font-size: 14px;
-	line-height: 16px;
-	color: rgba(52, 65, 77, 1);
-	padding-left: 44px;
-	padding-top: 10px;
-	padding-right: 12px;
-	padding-bottom: 10px;
-	outline: none;
-	transition: border-color 0.3s ease-in-out;
-	cursor: pointer;
-}
-
-input::placeholder {
-	color: rgba(255, 255, 255, 0.6);
-}
-
 .email.error {
-  border: 1px solid rgba(255, 83, 100, 1) !important;
+	border: 1px solid rgba(255, 83, 100, 1) !important;
 }
 
 .error-text {
-position: absolute;
-right: 16px;
-bottom: -12px;
-display: none;
-font-weight: 400;
-font-size: 12px;
-line-height: 24px;
-color: rgba(255, 83, 100, 1);
-background-color: rgba(255, 255, 255, 1);
-padding: 0 4px;
-z-index: 5;
+	position: absolute;
+	right: 16px;
+	bottom: -12px;
+	display: none;
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 24px;
+	color: rgba(255, 83, 100, 1);
+	background-color: rgba(255, 255, 255, 1);
+	padding: 0 4px;
+	z-index: 5;
 }
 
 .password {
@@ -878,7 +835,7 @@ z-index: 5;
 	align-items: center;
 	justify-content: end;
 }
-@media screen and (min-width:1024px) {
+@media screen and (min-width: 1024px) {
 	.password-hints {
 		width: 448px;
 	}
@@ -889,16 +846,16 @@ z-index: 5;
 }
 .hint-list {
 	border-radius: 12px;
-	background: #FFFFFF1F;
-width: 100%;
+	background: #ffffff1f;
+	width: 100%;
 }
 
 .hint-item {
-display: flex;
-gap: 10px;
-align-items: center;
-justify-content: flex-start;
-padding: 8px;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	justify-content: flex-start;
+	padding: 8px;
 }
 
 .icon-valid {
@@ -949,7 +906,6 @@ padding: 8px;
 	height: 18px;
 }
 
-
 .modal-checkbox:checked::before {
 	content: "";
 	background-image: url(../images/icon-check.svg);
@@ -993,10 +949,9 @@ input:-webkit-autofill:active {
 }
 
 #captcha-container {
-  height: 0;
-  overflow: hidden;
+	height: 0;
+	overflow: hidden;
 }
-
 
 /* ---------scene--------------- */
 
