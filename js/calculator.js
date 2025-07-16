@@ -127,7 +127,7 @@ function handleInput() {
 
 	const rawValue = refs.depositInput.value.trim();
 
-	// 🟡 Якщо поле порожнє — нічого не робимо
+	// Якщо поле порожнє — нічого не робимо
 	if (rawValue === "") {
 		clearSlots();
 		refs.bonusText.textContent = "";
@@ -181,19 +181,25 @@ function handleInput() {
 	}, typingDelay);
 }
 
-
 // ==== ANIMATION ====
 function startFastSpin() {
 	refs.slots.forEach((slot, index) => {
 		clearInterval(intervalIds[index]);
 		fillSlotWithDigits(slot);
-		intervalIds[index] = setInterval(() => {
-			positions[index] -= 10;
-			const visibleHeight = 98; 
-			const iconCount = 10;
-			const totalHeight = visibleHeight * iconCount;
 
-			if (positions[index] <= -totalHeight) positions[index] = 0;
+		const visibleHeight = 98;
+		const iconCount = 20;
+		const totalHeight = visibleHeight * iconCount;
+
+		// 🎯 Випадкова початкова позиція
+		positions[index] = -Math.floor(Math.random() * totalHeight);
+
+		slot.style.top = positions[index] + "px";
+
+		intervalIds[index] = setInterval(() => {
+			positions[index] += 5;
+
+			if (positions[index] >= totalHeight) positions[index] = 0;
 			slot.style.top = positions[index] + "px";
 		}, 16);
 	});
@@ -201,14 +207,26 @@ function startFastSpin() {
 
 function fillSlotWithDigits(slot) {
 	slot.innerHTML = "";
-	for (let i = 0; i < 10; i++) {
+
+	const iconCount = 10;
+	const cloneCount = 3; // кількість копій для плавного зациклення
+
+	// Основні цифри
+	for (let i = 0; i < iconCount; i++) {
+		const icon = document.createElement("div");
+		icon.className = "icon";
+		icon.textContent = i;
+		slot.appendChild(icon);
+	}
+
+	// 🔁 Додаємо копії перших N цифр (для зациклення)
+	for (let i = 0; i < cloneCount; i++) {
 		const icon = document.createElement("div");
 		icon.className = "icon";
 		icon.textContent = i;
 		slot.appendChild(icon);
 	}
 }
-
 function stopSpinAndShowDigits(amount) {
 	const digits = String(amount).padStart(4, " ").split("");
 
